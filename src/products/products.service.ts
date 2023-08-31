@@ -20,6 +20,24 @@ export class ProductsService {
     return this.productsRepository.findOneByOrFail({ id });
   }
 
+  async filterProducts(name: string, price_gte: number, price_lte: number) {
+    const query = this.productsRepository.createQueryBuilder('product');
+    
+    if (name) {
+      query.andWhere('product.name = :name', { name });  
+    }
+    
+    if (price_gte) {
+      query.andWhere('product.price >= :price_gte', { price_gte });
+    }
+
+    if (price_lte) {
+      query.andWhere('product.price <= :price_lte', { price_lte });
+    }
+
+    return await query.getMany();
+  }
+
   create(createProductDto: CreateProductDto) {
     return this.productsRepository.save(createProductDto);
   }

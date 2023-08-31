@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -25,9 +26,12 @@ export class ProductsController {
    * Example: /products?name=Something&price_subunit[gte]=10&price_subunit[lte]=100
    */
 
-  @Get(':q')
-  index() {
-    return this.productsService.findAll();
+  @Get()
+  async index(@Query('name') name: string, @Query('price_gte') price_gte: number, @Query('price_lte') price_lte: number) {
+    const filteredProducts = await this.productsService.filterProducts(name, price_gte, price_lte);
+
+    // return this.productsService.findAll();
+    return filteredProducts;
   }
 
   @Post()
