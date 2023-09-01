@@ -30,8 +30,8 @@ export class ProductsController {
   async index(@Query('name') name: string, @Query('price_gte') price_gte: number, @Query('price_lte') price_lte: number) {
     const filteredProducts = await this.productsService.filterProducts(name, price_gte, price_lte);
 
-    // return this.productsService.findAll();
     return filteredProducts;
+    // return this.productsService.findAll();
   }
 
   @Post()
