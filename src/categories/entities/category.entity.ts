@@ -26,7 +26,7 @@ export class Category {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToMany(() => Product)
-  @JoinTable()
-  products: Product[]
+  @ManyToMany(() => Product, product => product.categories)
+  @JoinTable() 
+  products: Product[];
 }
